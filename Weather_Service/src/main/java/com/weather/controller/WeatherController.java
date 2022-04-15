@@ -25,7 +25,7 @@ public class WeatherController {
 	 */
 	@GetMapping("/{location}")
 	public Weather GetWeather(@PathVariable("location") String location) {
-		
+
 		return weatherService.GetWeatherByCityName(location);
 	}
 

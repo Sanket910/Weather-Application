@@ -1,6 +1,7 @@
 package com.weather.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.weather.model.Weather;
@@ -17,15 +18,19 @@ public class WeatherServiceImpl implements WeatherService {
 	@Override
 	public Weather GetWeatherByCityName(String location) {
 		
-		String baseurl="http://api.weatherapi.com/v1/forecast.json?";
-		String key ="key=483a04daff914ce58f991903220803";
-		String location1 ="&q=";
-		String day="&days=7";
-		String aqi="&aqi=yes";
-		String alert="&alerts=no";
-		RestTemplate restTemplate = new RestTemplate();
-		
-		return restTemplate.getForObject("http://api.weatherapi.com/v1/forecast.json?key=483a04daff914ce58f991903220803&q="+location+"&days=7&aqi=yes&alerts=no" ,Weather.class );
+		try {
+			String baseurl="http://api.weatherapi.com/v1/forecast.json?";
+			String key ="key=483a04daff914ce58f991903220803";
+			String location1 ="&q=";
+			String day="&days=7";
+			String aqi="&aqi=yes";
+			String alert="&alerts=no";
+			RestTemplate restTemplate = new RestTemplate();
+			
+			return restTemplate.getForObject("http://api.weatherapi.com/v1/forecast.json?key=483a04daff914ce58f991903220803&q="+location+"&days=7&aqi=yes&alerts=no" ,Weather.class );
+		} catch (RestClientException e) {
+			return new Weather();
+		}
 	}
 
 }

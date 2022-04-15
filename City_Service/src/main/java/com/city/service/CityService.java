@@ -2,6 +2,8 @@ package com.city.service;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 import com.city.dto.CityWeatherDto;
 import com.city.model.City;
 
@@ -21,7 +23,7 @@ public interface CityService {
 	 * @param city
 	 * @return {@link String}
 	 */
-	City saveCity(City city);
+	String saveCity(City city);
 
 	/**
 	 * Delete city by id

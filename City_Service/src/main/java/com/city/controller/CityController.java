@@ -40,12 +40,12 @@ public class CityController {
 	 * Save city into Database
 	 * 
 	 * @param city
-	 * @return {@link String}
+	 * @return {@link ResponseEntity<String>}
 	 */
 	@PostMapping("")
-	public City saveCity(@RequestBody City city) {
+	public ResponseEntity<String> saveCity(@RequestBody City city) {
 
-		return cityService.saveCity(city);
+		return new ResponseEntity<String>(cityService.saveCity(city), HttpStatus.OK);
 	}
 
 	/**

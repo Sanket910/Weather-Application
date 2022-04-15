@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.city.dao.CityRepository;
 import com.city.dto.CityWeatherDto;
@@ -18,7 +19,6 @@ public class CityServiceImpl implements CityService {
 	@Autowired
 	private CityRepository cityRepository;
 
-	
 	@Autowired
 	private WeatherService weatherService;
 
@@ -37,7 +37,7 @@ public class CityServiceImpl implements CityService {
 				.sorted(Comparator.comparing(City::getSortId)).map(city -> modelMapper.map(city, CityWeatherDto.class))
 				.collect(Collectors.toList());
 		cityWeatherDto = getWeatherInfo(cityWeatherDto);
-		
+
 		return cityWeatherDto;
 	}
 
@@ -67,9 +67,15 @@ public class CityServiceImpl implements CityService {
 	 * @return {@link String}
 	 */
 	@Override
-	public City saveCity(City city) {
+	public String saveCity(City city) {
+		Weather weather = weatherService.GetWeather(city.getCityName());
+		if (weather.getCurrent() != null) {
+			 cityRepository.save(city);
+			return "City Added Succesfully..!";
+		} else {
+			return "City not supported by Weather-Api..!";
+		}
 
-		return cityRepository.save(city);
 	}
 
 	/**

@@ -11,8 +11,6 @@ public class CityWeatherDto {
 	private double maxtempC;
 	private double mintempC;
 
-	
-
 	@Override
 	public String toString() {
 		return "CityWeatherDto [id=" + id + ", cityName=" + cityName + ", sortId=" + sortId + ", weatherType="
