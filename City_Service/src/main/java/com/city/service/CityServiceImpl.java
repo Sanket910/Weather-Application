@@ -6,12 +6,14 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.city.dao.CityRepository;
 import com.city.dto.CityWeatherDto;
+import com.city.exception.GenericException;
 import com.city.model.City;
 import com.city.model.Weather;
+
+import feign.FeignException.FeignClientException;
 
 @Service
 public class CityServiceImpl implements CityService {
@@ -68,14 +70,23 @@ public class CityServiceImpl implements CityService {
 	 */
 	@Override
 	public String saveCity(City city) {
-		Weather weather = weatherService.GetWeather(city.getCityName());
-		if (weather.getCurrent() != null) {
-			 cityRepository.save(city);
-			return "City Added Succesfully..!";
-		} else {
-			return "City not supported by Weather-Api..!";
+
+		try {
+			Weather weather = weatherService.GetWeather(city.getCityName());
+
+			if (cityRepository.findByCityName(city.getCityName()) == null  && weather.getCurrent()!=null && weather.getForecast()!=null) {
+
+				cityRepository.save(city);
+			} else {
+
+				throw new GenericException("City is previously added, select another city..!");
+			}
+		} catch (FeignClientException e) {
+			
+			throw new GenericException("Desired city is not supported by weather Api...!");
 		}
 
+		return "City Added Succesfully..!";
 	}
 
 	/**
@@ -98,10 +109,12 @@ public class CityServiceImpl implements CityService {
 	 */
 	@Override
 	public void saveSortList(List<CityWeatherDto> cityListDto) {
+
 		List<City> cityList = cityListDto.stream().map(city -> modelMapper.map(city, City.class))
 				.collect(Collectors.toList());
 		int count = 1;
 		for (City tempCity : cityList) {
+
 			tempCity.setSortId(count);
 			cityRepository.save(tempCity);
 			count++;

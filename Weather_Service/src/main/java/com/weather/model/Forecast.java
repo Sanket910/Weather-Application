@@ -2,25 +2,15 @@ package com.weather.model;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Forecast {
 
 	private List<Forecastday> forecastday;
-
-	public Forecast(List<Forecastday> forecastday) {
-		super();
-		this.forecastday = forecastday;
-	}
-
-	public Forecast() {
-		super();
-	}
-
-	public List<Forecastday> getForecastday() {
-		return forecastday;
-	}
-
-	public void setForecastday(List<Forecastday> forecastday) {
-		this.forecastday = forecastday;
-	}
 
 }

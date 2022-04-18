@@ -2,8 +2,6 @@ package com.city.service;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
-
 import com.city.dto.CityWeatherDto;
 import com.city.model.City;
 
