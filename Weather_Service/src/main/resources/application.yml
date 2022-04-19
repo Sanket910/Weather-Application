@@ -3,6 +3,9 @@ server:
 spring:
   application:
     name: weather-service
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
 eureka:
   instance:
     hostname: localhost

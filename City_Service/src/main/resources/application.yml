@@ -13,6 +13,9 @@ spring:
     show-sql: true
   application:
     name: city-service
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
 eureka:
   instance:
     hostname: localhost

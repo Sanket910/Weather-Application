@@ -52,6 +52,7 @@ public class CityServiceImpl implements CityService {
 	private List<CityWeatherDto> getWeatherInfo(List<CityWeatherDto> cityWeatherDto) {
 
 		for (CityWeatherDto cityWeatherDtoTemp : cityWeatherDto) {
+			
 			Weather weather = weatherService.GetWeather(cityWeatherDtoTemp.getCityName());
 			cityWeatherDtoTemp.setMaxtempC(weather.getForecast().getForecastday().get(0).getDay().getMaxtempC());
 			cityWeatherDtoTemp.setMintempC(weather.getForecast().getForecastday().get(0).getDay().getMintempC());
@@ -72,8 +73,8 @@ public class CityServiceImpl implements CityService {
 	public String saveCity(City city) {
 
 		try {
+			
 			Weather weather = weatherService.GetWeather(city.getCityName());
-
 			if (cityRepository.findByCityName(city.getCityName()) == null  && weather.getCurrent()!=null && weather.getForecast()!=null) {
 
 				cityRepository.save(city);
@@ -97,9 +98,16 @@ public class CityServiceImpl implements CityService {
 	 */
 	@Override
 	public String deleteCity(long id) {
-
-		cityRepository.deleteById(id);
-		return "Deleated Successfully..!";
+		
+		if(cityRepository.findById(id)!=null) {
+			
+			cityRepository.deleteById(id);
+		}else {
+			
+			throw new GenericException("City is not present in database");
+		}
+		
+		return "City Deleated Successfully..!";
 	}
 
 	/**

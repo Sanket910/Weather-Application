@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.weather.model.Weather;
 import com.weather.service.WeatherService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/weather")
 public class WeatherController {
