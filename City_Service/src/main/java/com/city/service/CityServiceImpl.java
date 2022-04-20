@@ -26,6 +26,9 @@ public class CityServiceImpl implements CityService {
 
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	private NextSequenceService nextSequenceService;
 
 	/**
 	 * Get Cities List
@@ -77,6 +80,7 @@ public class CityServiceImpl implements CityService {
 			Weather weather = weatherService.GetWeather(city.getCityName());
 			if (cityRepository.findByCityName(city.getCityName()) == null  && weather.getCurrent()!=null && weather.getForecast()!=null) {
 
+				city.setId(nextSequenceService.getNextSequence("customSequences"));
 				cityRepository.save(city);
 			} else {
 
